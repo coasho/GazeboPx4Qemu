@@ -1,4 +1,0 @@
-selftest/*.out
-selftest/*.bin
-genromfs
-genromfs.o
