@@ -1,0 +1,3 @@
+#!/bin/bash
+source shell-functions.sh
+call_windows_git_command git-gui "$@"
