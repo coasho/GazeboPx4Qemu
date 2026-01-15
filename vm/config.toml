@@ -1,0 +1,67 @@
+# ============================================================================
+# Gazebo Manager 配置文件
+# ============================================================================
+#
+# 注意: SSH 端口 (2222 -> 22) 是内部固定的，不可配置
+#
+# [network.tcp_mappings] 端口映射格式:
+#   host_port  = 宿主机端口 (Windows)
+#   guest_port = 虚拟机端口 (QEMU/Linux)
+#   description = 描述 (可选)
+#
+# ============================================================================
+
+[[network.tcp_mappings]]
+host_port = 11345
+guest_port = 11345
+description = "Gazebo Server"
+
+[[network.tcp_mappings]]
+host_port = 4560
+guest_port = 4560
+description = "PX4 SITL #0"
+
+[[network.tcp_mappings]]
+host_port = 4561
+guest_port = 4561
+description = "PX4 SITL #1"
+
+[[network.tcp_mappings]]
+host_port = 4562
+guest_port = 4562
+description = "PX4 SITL #2"
+
+[[network.tcp_mappings]]
+host_port = 4563
+guest_port = 4563
+description = "PX4 SITL #3"
+
+[[network.tcp_mappings]]
+host_port = 4564
+guest_port = 4564
+description = "PX4 SITL #4"
+
+[[network.tcp_mappings]]
+host_port = 4565
+guest_port = 4565
+description = "PX4 SITL #5"
+
+[[network.tcp_mappings]]
+host_port = 4566
+guest_port = 4566
+description = "PX4 SITL #6"
+
+[[network.tcp_mappings]]
+host_port = 4567
+guest_port = 4567
+description = "PX4 SITL #7"
+
+[[network.tcp_mappings]]
+host_port = 4568
+guest_port = 4568
+description = "PX4 SITL #8"
+
+[[network.tcp_mappings]]
+host_port = 4569
+guest_port = 4569
+description = "PX4 SITL #9"
