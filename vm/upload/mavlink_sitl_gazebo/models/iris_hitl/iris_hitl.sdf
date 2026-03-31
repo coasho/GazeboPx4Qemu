@@ -5,10 +5,10 @@
       <pose>0 0 0 0 0 0</pose>
       <inertial>
         <pose>0 0 0 0 0 0</pose>
-        <mass>4.965</mass>
+        <mass>5.2</mass>
         <inertia>
-          <ixx>0.09640</ixx><ixy>0</ixy><ixz>0</ixz>
-          <iyy>0.09640</iyy><iyz>0</iyz><izz>0.18280</izz>
+          <ixx>0.10119</ixx><ixy>0</ixy><ixz>0</ixz>
+          <iyy>0.10119</iyy><iyz>0</iyz><izz>0.19190</izz>
         </inertia>
       </inertial>
       <collision name='base_link_inertia_collision'>
@@ -101,8 +101,8 @@
     <!-- rotor_0 (前右 Motor1) 从数组位置3取值 -->
     <plugin name='front_right_motor_model' filename='libgazebo_motor_model.so'>
       <robotNamespace/><jointName>rotor_0_joint</jointName><linkName>rotor_0</linkName><turningDirection>ccw</turningDirection>
-      <timeConstantUp>0.0125</timeConstantUp><timeConstantDown>0.025</timeConstantDown><maxRotVelocity>1100</maxRotVelocity>
-      <motorConstant>5.84e-06</motorConstant><momentConstant>0.06</momentConstant>
+      <timeConstantUp>0.0125</timeConstantUp><timeConstantDown>0.025</timeConstantDown><maxRotVelocity>1125</maxRotVelocity>
+      <motorConstant>4.05e-05</motorConstant><momentConstant>0.0226</momentConstant>
       <commandSubTopic>/gazebo/command/motor_speed</commandSubTopic><motorNumber>3</motorNumber>
       <rotorDragCoefficient>0.000175</rotorDragCoefficient><rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
       <motorSpeedPubTopic>/motor_speed/0</motorSpeedPubTopic><rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
@@ -111,8 +111,8 @@
     <!-- rotor_1 (后左 Motor2) 从数组位置0取值 -->
     <plugin name='back_left_motor_model' filename='libgazebo_motor_model.so'>
       <robotNamespace/><jointName>rotor_1_joint</jointName><linkName>rotor_1</linkName><turningDirection>ccw</turningDirection>
-      <timeConstantUp>0.0125</timeConstantUp><timeConstantDown>0.025</timeConstantDown><maxRotVelocity>1100</maxRotVelocity>
-      <motorConstant>5.84e-06</motorConstant><momentConstant>0.06</momentConstant>
+      <timeConstantUp>0.0125</timeConstantUp><timeConstantDown>0.025</timeConstantDown><maxRotVelocity>1125</maxRotVelocity>
+      <motorConstant>4.05e-05</motorConstant><momentConstant>0.0226</momentConstant>
       <commandSubTopic>/gazebo/command/motor_speed</commandSubTopic><motorNumber>0</motorNumber>
       <rotorDragCoefficient>0.000175</rotorDragCoefficient><rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
       <motorSpeedPubTopic>/motor_speed/1</motorSpeedPubTopic><rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
@@ -121,8 +121,8 @@
     <!-- rotor_2 (前左 Motor3) 从数组位置1取值 -->
     <plugin name='front_left_motor_model' filename='libgazebo_motor_model.so'>
       <robotNamespace/><jointName>rotor_2_joint</jointName><linkName>rotor_2</linkName><turningDirection>cw</turningDirection>
-      <timeConstantUp>0.0125</timeConstantUp><timeConstantDown>0.025</timeConstantDown><maxRotVelocity>1100</maxRotVelocity>
-      <motorConstant>5.84e-06</motorConstant><momentConstant>0.06</momentConstant>
+      <timeConstantUp>0.0125</timeConstantUp><timeConstantDown>0.025</timeConstantDown><maxRotVelocity>1125</maxRotVelocity>
+      <motorConstant>4.05e-05</motorConstant><momentConstant>0.0226</momentConstant>
       <commandSubTopic>/gazebo/command/motor_speed</commandSubTopic><motorNumber>1</motorNumber>
       <rotorDragCoefficient>0.000175</rotorDragCoefficient><rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
       <motorSpeedPubTopic>/motor_speed/2</motorSpeedPubTopic><rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
@@ -131,8 +131,8 @@
     <!-- rotor_3 (后右 Motor4) 从数组位置2取值 -->
     <plugin name='back_right_motor_model' filename='libgazebo_motor_model.so'>
       <robotNamespace/><jointName>rotor_3_joint</jointName><linkName>rotor_3</linkName><turningDirection>cw</turningDirection>
-      <timeConstantUp>0.0125</timeConstantUp><timeConstantDown>0.025</timeConstantDown><maxRotVelocity>1100</maxRotVelocity>
-      <motorConstant>5.84e-06</motorConstant><momentConstant>0.06</momentConstant>
+      <timeConstantUp>0.0125</timeConstantUp><timeConstantDown>0.025</timeConstantDown><maxRotVelocity>1125</maxRotVelocity>
+      <motorConstant>4.05e-05</motorConstant><momentConstant>0.0226</momentConstant>
       <commandSubTopic>/gazebo/command/motor_speed</commandSubTopic><motorNumber>2</motorNumber>
       <rotorDragCoefficient>0.000175</rotorDragCoefficient><rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
       <motorSpeedPubTopic>/motor_speed/3</motorSpeedPubTopic><rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
