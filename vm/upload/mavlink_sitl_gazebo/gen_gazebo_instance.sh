@@ -1,7 +1,5 @@
 #!/bin/bash
-# gen_gazebo_instance_optimized.sh - 优化版 Gazebo 多实例配置
-# 针对纯 HITL 数据交互，最小化资源消耗
-# 用法: ./gen_gazebo_instance_optimized.sh <instance_id> [output_dir]
+# gen_gazebo_instance_optimized.sh - 优化版 Gazebo 多实例配置 (支持相对定位)
 
 set -e
 
@@ -9,16 +7,41 @@ INSTANCE_ID=${1:-1}
 OUTPUT_DIR=${2:-"./gazebo_instance_${INSTANCE_ID}"}
 GZ_SITL_ROOT=${GZ_SITL_ROOT:-"/mavlink_sitl_gazebo"}
 
-# ============== GPS初始配置（按实例号） ==============
-DEFAULT="30.70723657,103.95386864,520.3,0"
-GPS_1="30.70723657,103.95386864,520.3,0"
-GPS_2="30.70724837,103.95385287,520.3,0"
-GPS_3="30.70722477,103.95388441,520.3,0"
-# GPS_{实例号}="纬度(度),经度(度),海拔高度(米),航向角(度)"
-# ============== 读取配置 ==============
-VAR_NAME="GPS_${INSTANCE_ID}"
-GPS_CONFIG="${!VAR_NAME:-$DEFAULT}"
-IFS=',' read -r LATITUDE LONGITUDE ELEVATION HEADING <<< "$GPS_CONFIG"
+# ============== 1. 基准 GPS 配置 (GPS_1) ==============
+# 你只需在此修改 GPS_1 的坐标，GPS_2/3 会自动同步偏移
+# 试飞场
+#BASE_LAT="30.7758375441431"
+#BASE_LON="103.723425865173"
+#BASE_ALT="585.3"
+# 机场
+BASE_LAT="30.70723657"
+BASE_LON="103.95386864"
+BASE_ALT="520.6115"
+
+BASE_HDG="0"
+
+# ============== 2. 定义相对偏移量 (基于原脚本计算) ==============
+# 格式: "纬度偏移,经度偏移,高度偏移,航向偏移"
+OFFSET_1="0,0,0,0"
+OFFSET_2="-0.00001180,0.00001577,0,0"
+OFFSET_3="0.00001180,-0.00001577,0,0"
+
+# ============== 3. 计算当前实例坐标 ==============
+VAR_OFFSET="OFFSET_${INSTANCE_ID}"
+CURRENT_OFFSET="${!VAR_OFFSET:-$OFFSET_1}" # 若实例超过3，默认重合
+
+# 使用 awk 进行高精度浮点加法
+IFS=',' read -r D_LAT D_LON D_ALT D_HDG <<< "$CURRENT_OFFSET"
+
+LATITUDE=$(awk "BEGIN {printf \"%.8f\", $BASE_LAT + $D_LAT}")
+LONGITUDE=$(awk "BEGIN {printf \"%.8f\", $BASE_LON + $D_LON}")
+ELEVATION=$(awk "BEGIN {printf \"%.1f\", $BASE_ALT + $D_ALT}")
+HEADING=$(awk "BEGIN {printf \"%.1f\", $BASE_HDG + $D_HDG}")
+
+echo "Instance $INSTANCE_ID Position: $LATITUDE, $LONGITUDE, $ELEVATION, $HEADING"
+
+# ============== 后续 Gazebo 配置逻辑 ==============
+# (此处保持你原有的 SITL 配置文件生成逻辑...)
 
 # ============== 端口计算 ==============
 OFFSET=$((INSTANCE_ID - 1))

@@ -1,15 +1,14 @@
-<!-- iris_hitl_gimbal_typhoon.sdf -->
-<!-- 完全照搬 Typhoon H480 官方云台配置 -->
+<!-- iris_hitl.sdf -->
 <sdf version='1.6'>
   <model name='iris'>
     <link name='base_link'>
       <pose>0 0 0 0 0 0</pose>
       <inertial>
         <pose>0 0 0 0 0 0</pose>
-        <mass>1.5</mass>
+        <mass>4.965</mass>
         <inertia>
-          <ixx>0.029125</ixx><ixy>0</ixy><ixz>0</ixz>
-          <iyy>0.029125</iyy><iyz>0</iyz><izz>0.055225</izz>
+          <ixx>0.09640</ixx><ixy>0</ixy><ixz>0</ixz>
+          <iyy>0.09640</iyy><iyz>0</iyz><izz>0.18280</izz>
         </inertia>
       </inertial>
       <collision name='base_link_inertia_collision'>
@@ -44,137 +43,13 @@
       </axis>
     </joint>
 
-    <!-- ========== 3轴云台 (照搬 Typhoon H480) ========== -->
-    
-    <!-- Yaw 轴 (垂直臂) -->
-    <link name='cgo3_vertical_arm_link'>
-      <inertial>
-        <pose>0 0.02 -0.13 0 0 0</pose>
-        <mass>0.1</mass>
-        <inertia>
-          <ixx>0.001</ixx><ixy>0</ixy><ixz>0</ixz>
-          <iyy>0.001</iyy><iyz>0</iyz><izz>0.001</izz>
-        </inertia>
-      </inertial>
-      <visual name='cgo3_vertical_arm_visual'>
-        <pose>0 0 -0.07 0 0 0</pose>
-        <geometry><cylinder><radius>0.012</radius><length>0.06</length></cylinder></geometry>
-        <material><script><name>Gazebo/DarkGrey</name><uri>file://media/materials/scripts/gazebo.material</uri></script></material>
-      </visual>
-    </link>
-    <joint name='cgo3_vertical_arm_joint' type='revolute'>
-      <child>cgo3_vertical_arm_link</child>
-      <parent>base_link</parent>
-      <pose>0 0 -0.04 0 0 0</pose>
-      <axis>
-        <xyz>0 0 1</xyz>
-        <limit>
-          <lower>-3.14159</lower>
-          <upper>3.14159</upper>
-          <effort>100</effort>
-          <velocity>-1</velocity>
-        </limit>
-        <dynamics><damping>0.1</damping></dynamics>
-        <use_parent_model_frame>1</use_parent_model_frame>
-      </axis>
-      <physics>
-        <ode>
-          <implicit_spring_damper>1</implicit_spring_damper>
-          <limit><cfm>0.1</cfm><erp>0.2</erp></limit>
-        </ode>
-      </physics>
-    </joint>
-
-    <!-- Roll 轴 (水平臂) -->
-    <link name='cgo3_horizontal_arm_link'>
-      <inertial>
-        <pose>0 0 -0.10 0 0 0</pose>
-        <mass>0.1</mass>
-        <inertia>
-          <ixx>0.001</ixx><ixy>0</ixy><ixz>0</ixz>
-          <iyy>0.001</iyy><iyz>0</iyz><izz>0.001</izz>
-        </inertia>
-      </inertial>
-      <visual name='cgo3_horizontal_arm_visual'>
-        <pose>0 0 -0.10 0 0 0</pose>
-        <geometry><box><size>0.04 0.01 0.01</size></box></geometry>
-        <material><script><name>Gazebo/Grey</name><uri>file://media/materials/scripts/gazebo.material</uri></script></material>
-      </visual>
-    </link>
-    <joint name='cgo3_horizontal_arm_joint' type='revolute'>
-      <child>cgo3_horizontal_arm_link</child>
-      <parent>cgo3_vertical_arm_link</parent>
-      <pose>0 0 -0.07 0 0 0</pose>
-      <axis>
-        <xyz>1 0 0</xyz>
-        <limit>
-          <lower>-0.7854</lower>
-          <upper>0.7854</upper>
-          <effort>100</effort>
-          <velocity>-1</velocity>
-        </limit>
-        <dynamics><damping>0.1</damping></dynamics>
-        <use_parent_model_frame>1</use_parent_model_frame>
-      </axis>
-      <physics>
-        <ode>
-          <implicit_spring_damper>1</implicit_spring_damper>
-          <limit><cfm>0.1</cfm><erp>0.2</erp></limit>
-        </ode>
-      </physics>
-    </joint>
-
-    <!-- Pitch 轴 (相机) + 云台 IMU -->
-    <link name='cgo3_camera_link'>
-      <inertial>
-        <pose>0 0 -0.13 0 0 0</pose>
-        <mass>0.1</mass>
-        <inertia>
-          <ixx>0.001</ixx><ixy>0</ixy><ixz>0</ixz>
-          <iyy>0.001</iyy><iyz>0</iyz><izz>0.001</izz>
-        </inertia>
-      </inertial>
-      <visual name='cgo3_camera_visual'>
-        <pose>0 0 -0.13 0 0 0</pose>
-        <geometry><box><size>0.03 0.03 0.04</size></box></geometry>
-        <material><script><name>Gazebo/DarkGrey</name><uri>file://media/materials/scripts/gazebo.material</uri></script></material>
-      </visual>
-      <!-- 云台 IMU - 完全照搬官方配置 -->
-      <sensor name="camera_imu" type="imu">
-        <always_on>1</always_on>
-      </sensor>
-    </link>
-    <joint name='cgo3_camera_joint' type='revolute'>
-      <child>cgo3_camera_link</child>
-      <parent>cgo3_horizontal_arm_link</parent>
-      <pose>0 0 -0.10 0 0 0</pose>
-      <axis>
-        <xyz>0 -1 0</xyz>
-        <limit>
-          <lower>-1.5708</lower>
-          <upper>0.7854</upper>
-          <effort>100</effort>
-          <velocity>-1</velocity>
-        </limit>
-        <dynamics><damping>0.1</damping></dynamics>
-        <use_parent_model_frame>1</use_parent_model_frame>
-      </axis>
-      <physics>
-        <ode>
-          <implicit_spring_damper>1</implicit_spring_damper>
-          <limit><cfm>0.1</cfm><erp>0.2</erp></limit>
-        </ode>
-      </physics>
-    </joint>
-    <!-- ========== 云台结束 ========== -->
-
     <!-- Rotors -->
     <link name='rotor_0'>
-      <pose>0.13 -0.22 0.023 0 0 0</pose>
+      <pose>0.2475 -0.2475 0.023 0 0 0</pose>
       <inertial><pose>0 0 0 0 0 0</pose><mass>0.005</mass>
         <inertia><ixx>9.75e-07</ixx><ixy>0</ixy><ixz>0</ixz><iyy>0.000273104</iyy><iyz>0</iyz><izz>0.000274004</izz></inertia>
       </inertial>
-      <collision name='rotor_0_collision'><pose>0 0 0 0 0 0</pose><geometry><cylinder><length>0.005</length><radius>0.128</radius></cylinder></geometry><surface><contact><ode/></contact><friction><ode/></friction></surface></collision>
+      <collision name='rotor_0_collision'><pose>0 0 0 0 0 0</pose><geometry><cylinder><length>0.005</length><radius>0.165</radius></cylinder></geometry><surface><contact><ode/></contact><friction><ode/></friction></surface></collision>
       <visual name='rotor_0_visual'><pose>0 0 0 0 0 0</pose><geometry><mesh><scale>1 1 1</scale><uri>model://iris/meshes/iris_prop_ccw.dae</uri></mesh></geometry><material><script><n>Gazebo/Blue</n><uri>file://media/materials/scripts/gazebo.material</uri></script></material></visual>
       <gravity>1</gravity><velocity_decay/>
     </link>
@@ -183,11 +58,11 @@
       <axis><xyz>0 0 1</xyz><limit><lower>-1e+16</lower><upper>1e+16</upper></limit><dynamics><spring_reference>0</spring_reference><spring_stiffness>0</spring_stiffness></dynamics><use_parent_model_frame>1</use_parent_model_frame></axis>
     </joint>
     <link name='rotor_1'>
-      <pose>-0.13 0.2 0.023 0 0 0</pose>
+      <pose>-0.2475 0.2475 0.023 0 0 0</pose>
       <inertial><pose>0 0 0 0 0 0</pose><mass>0.005</mass>
         <inertia><ixx>9.75e-07</ixx><ixy>0</ixy><ixz>0</ixz><iyy>0.000273104</iyy><iyz>0</iyz><izz>0.000274004</izz></inertia>
       </inertial>
-      <collision name='rotor_1_collision'><pose>0 0 0 0 0 0</pose><geometry><cylinder><length>0.005</length><radius>0.128</radius></cylinder></geometry><surface><contact><ode/></contact><friction><ode/></friction></surface></collision>
+      <collision name='rotor_1_collision'><pose>0 0 0 0 0 0</pose><geometry><cylinder><length>0.005</length><radius>0.165</radius></cylinder></geometry><surface><contact><ode/></contact><friction><ode/></friction></surface></collision>
       <visual name='rotor_1_visual'><pose>0 0 0 0 0 0</pose><geometry><mesh><scale>1 1 1</scale><uri>model://iris/meshes/iris_prop_ccw.dae</uri></mesh></geometry><material><script><n>Gazebo/DarkGrey</n><uri>file://media/materials/scripts/gazebo.material</uri></script></material></visual>
       <gravity>1</gravity><velocity_decay/>
     </link>
@@ -196,11 +71,11 @@
       <axis><xyz>0 0 1</xyz><limit><lower>-1e+16</lower><upper>1e+16</upper></limit><dynamics><spring_reference>0</spring_reference><spring_stiffness>0</spring_stiffness></dynamics><use_parent_model_frame>1</use_parent_model_frame></axis>
     </joint>
     <link name='rotor_2'>
-      <pose>0.13 0.22 0.023 0 0 0</pose>
+      <pose>0.2475 0.2475 0.023 0 0 0</pose>
       <inertial><pose>0 0 0 0 0 0</pose><mass>0.005</mass>
         <inertia><ixx>9.75e-07</ixx><ixy>0</ixy><ixz>0</ixz><iyy>0.000273104</iyy><iyz>0</iyz><izz>0.000274004</izz></inertia>
       </inertial>
-      <collision name='rotor_2_collision'><pose>0 0 0 0 0 0</pose><geometry><cylinder><length>0.005</length><radius>0.128</radius></cylinder></geometry><surface><contact><ode/></contact><friction><ode/></friction></surface></collision>
+      <collision name='rotor_2_collision'><pose>0 0 0 0 0 0</pose><geometry><cylinder><length>0.005</length><radius>0.165</radius></cylinder></geometry><surface><contact><ode/></contact><friction><ode/></friction></surface></collision>
       <visual name='rotor_2_visual'><pose>0 0 0 0 0 0</pose><geometry><mesh><scale>1 1 1</scale><uri>model://iris/meshes/iris_prop_cw.dae</uri></mesh></geometry><material><script><n>Gazebo/Blue</n><uri>file://media/materials/scripts/gazebo.material</uri></script></material></visual>
       <gravity>1</gravity><velocity_decay/>
     </link>
@@ -209,11 +84,11 @@
       <axis><xyz>0 0 1</xyz><limit><lower>-1e+16</lower><upper>1e+16</upper></limit><dynamics><spring_reference>0</spring_reference><spring_stiffness>0</spring_stiffness></dynamics><use_parent_model_frame>1</use_parent_model_frame></axis>
     </joint>
     <link name='rotor_3'>
-      <pose>-0.13 -0.2 0.023 0 0 0</pose>
+      <pose>-0.2475 -0.2475 0.023 0 0 0</pose>
       <inertial><pose>0 0 0 0 0 0</pose><mass>0.005</mass>
         <inertia><ixx>9.75e-07</ixx><ixy>0</ixy><ixz>0</ixz><iyy>0.000273104</iyy><iyz>0</iyz><izz>0.000274004</izz></inertia>
       </inertial>
-      <collision name='rotor_3_collision'><pose>0 0 0 0 0 0</pose><geometry><cylinder><length>0.005</length><radius>0.128</radius></cylinder></geometry><surface><contact><ode/></contact><friction><ode/></friction></surface></collision>
+      <collision name='rotor_3_collision'><pose>0 0 0 0 0 0</pose><geometry><cylinder><length>0.005</length><radius>0.165</radius></cylinder></geometry><surface><contact><ode/></contact><friction><ode/></friction></surface></collision>
       <visual name='rotor_3_visual'><pose>0 0 0 0 0 0</pose><geometry><mesh><scale>1 1 1</scale><uri>model://iris/meshes/iris_prop_cw.dae</uri></mesh></geometry><material><script><n>Gazebo/DarkGrey</n><uri>file://media/materials/scripts/gazebo.material</uri></script></material></visual>
       <gravity>1</gravity><velocity_decay/>
     </link>
@@ -292,7 +167,7 @@
       <robotNamespace/><pubRate>50</pubRate><baroTopic>/baro</baroTopic><baroDriftPaPerSec>0</baroDriftPaPerSec>
     </plugin>
 
-    <!-- MAVLink 接口 - 云台通道用 position_gztopic -->
+    <!-- MAVLink 接口 -->
     <plugin name='mavlink_interface' filename='libgazebo_mavlink_interface.so'>
       <robotNamespace/>
       <imuSubTopic>/imu</imuSubTopic>
@@ -402,50 +277,5 @@
       <imuTopic>/imu</imuTopic>
     </plugin>
 
-    <!-- 云台控制器插件 - 完全照搬 Typhoon H480 配置 -->
-    <plugin name='gimbal_controller' filename='libgazebo_gimbal_controller_plugin.so'>
-      <joint_yaw>iris::cgo3_vertical_arm_joint</joint_yaw>
-      <joint_roll>iris::cgo3_horizontal_arm_joint</joint_roll>
-      <joint_pitch>iris::cgo3_camera_joint</joint_pitch>
-      <gimbal_imu>camera_imu</gimbal_imu>
-      <control_gimbal_channels>
-        <channel>
-          <joint_control_pid>
-            <p>0.4</p>
-            <i>0.05</i>
-            <d>0.02</d>
-            <iMax>0</iMax>
-            <iMin>0</iMin>
-            <cmdMax>1.0</cmdMax>
-            <cmdMin>-1.0</cmdMin>
-          </joint_control_pid>
-          <joint_axis>joint_yaw</joint_axis>
-        </channel>
-        <channel>
-          <joint_control_pid>
-            <p>0.8</p>
-            <i>0.035</i>
-            <d>0.02</d>
-            <iMax>0</iMax>
-            <iMin>0</iMin>
-            <cmdMax>1.0</cmdMax>
-            <cmdMin>-1.0</cmdMin>
-          </joint_control_pid>
-          <joint_axis>joint_roll</joint_axis>
-        </channel>
-        <channel>
-          <joint_control_pid>
-            <p>0.8</p>
-            <i>0.035</i>
-            <d>0.02</d>
-            <iMax>0</iMax>
-            <iMin>0</iMin>
-            <cmdMax>1.0</cmdMax>
-            <cmdMin>-1.0</cmdMin>
-          </joint_control_pid>
-          <joint_axis>joint_pitch</joint_axis>
-        </channel>
-      </control_gimbal_channels>
-    </plugin>
   </model>
 </sdf>
