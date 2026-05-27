@@ -5,10 +5,10 @@
       <pose>0 0 0 0 0 0</pose>
       <inertial>
         <pose>0 0 0 0 0 0</pose>
-        <mass>5.2</mass>
+        <mass>3.285</mass>
         <inertia>
-          <ixx>0.10119</ixx><ixy>0</ixy><ixz>0</ixz>
-          <iyy>0.10119</iyy><iyz>0</iyz><izz>0.19190</izz>
+          <ixx>0.06378</ixx><ixy>0</ixy><ixz>0</ixz>
+          <iyy>0.06378</iyy><iyz>0</iyz><izz>0.12094</izz>
         </inertia>
       </inertial>
       <collision name='base_link_inertia_collision'>
@@ -41,6 +41,34 @@
         <dynamics><spring_reference>0</spring_reference><spring_stiffness>0</spring_stiffness></dynamics>
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
+    </joint>
+
+    <!-- Battery: TATTU 6S1P 16000mAh, 1915g, 184x76x67mm, mounted on top of frame -->
+    <!-- 电池居中安装 -->
+    <link name='battery'>
+      <pose>0 0 0.0885 0 0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 0 0</pose>
+        <mass>1.915</mass>
+        <inertia>
+          <ixx>0.001638</ixx><ixy>0</ixy><ixz>0</ixz>
+          <iyy>0.006119</iyy><iyz>0</iyz><izz>0.006325</izz>
+        </inertia>
+      </inertial>
+      <collision name='battery_collision'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry><box><size>0.184 0.076 0.067</size></box></geometry>
+      </collision>
+      <visual name='battery_visual'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry><box><size>0.184 0.076 0.067</size></box></geometry>
+        <material><script><n>Gazebo/Black</n><uri>file://media/materials/scripts/gazebo.material</uri></script></material>
+      </visual>
+      <gravity>1</gravity>
+    </link>
+    <joint name='battery_joint' type='fixed'>
+      <child>battery</child>
+      <parent>base_link</parent>
     </joint>
 
     <!-- Rotors -->
@@ -98,44 +126,55 @@
     </joint>
 
     <!-- Motor plugins -->
-    <!-- rotor_0 (前右 Motor1) 从数组位置3取值 -->
+    <!-- rotor_0 (前右 Motor1) 从数组位置3取值, 前电机ESC响应慢(16ms vs 12.5ms, 从日志反推) -->
     <plugin name='front_right_motor_model' filename='libgazebo_motor_model.so'>
       <robotNamespace/><jointName>rotor_0_joint</jointName><linkName>rotor_0</linkName><turningDirection>ccw</turningDirection>
-      <timeConstantUp>0.0125</timeConstantUp><timeConstantDown>0.025</timeConstantDown><maxRotVelocity>1125</maxRotVelocity>
-      <motorConstant>4.05e-05</motorConstant><momentConstant>0.0226</momentConstant>
+      <timeConstantUp>0.016</timeConstantUp><timeConstantDown>0.025</timeConstantDown><maxRotVelocity>1125</maxRotVelocity>
+      <motorConstant>6.0e-05</motorConstant><momentConstant>0.0226</momentConstant>
       <commandSubTopic>/gazebo/command/motor_speed</commandSubTopic><motorNumber>3</motorNumber>
       <rotorDragCoefficient>0.000175</rotorDragCoefficient><rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
       <motorSpeedPubTopic>/motor_speed/0</motorSpeedPubTopic><rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
     </plugin>
 
-    <!-- rotor_1 (后左 Motor2) 从数组位置0取值 -->
+    <!-- rotor_1 (后左 Motor2) 从数组位置0取值, 后电机ESC响应正常(12.5ms) -->
     <plugin name='back_left_motor_model' filename='libgazebo_motor_model.so'>
       <robotNamespace/><jointName>rotor_1_joint</jointName><linkName>rotor_1</linkName><turningDirection>ccw</turningDirection>
       <timeConstantUp>0.0125</timeConstantUp><timeConstantDown>0.025</timeConstantDown><maxRotVelocity>1125</maxRotVelocity>
-      <motorConstant>4.05e-05</motorConstant><momentConstant>0.0226</momentConstant>
+      <motorConstant>6.0e-05</motorConstant><momentConstant>0.0226</momentConstant>
       <commandSubTopic>/gazebo/command/motor_speed</commandSubTopic><motorNumber>0</motorNumber>
       <rotorDragCoefficient>0.000175</rotorDragCoefficient><rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
       <motorSpeedPubTopic>/motor_speed/1</motorSpeedPubTopic><rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
     </plugin>
 
-    <!-- rotor_2 (前左 Motor3) 从数组位置1取值 -->
+    <!-- rotor_2 (前左 Motor3) 从数组位置1取值, 前电机ESC响应慢(16ms vs 12.5ms, 从日志反推) -->
     <plugin name='front_left_motor_model' filename='libgazebo_motor_model.so'>
       <robotNamespace/><jointName>rotor_2_joint</jointName><linkName>rotor_2</linkName><turningDirection>cw</turningDirection>
-      <timeConstantUp>0.0125</timeConstantUp><timeConstantDown>0.025</timeConstantDown><maxRotVelocity>1125</maxRotVelocity>
-      <motorConstant>4.05e-05</motorConstant><momentConstant>0.0226</momentConstant>
+      <timeConstantUp>0.016</timeConstantUp><timeConstantDown>0.025</timeConstantDown><maxRotVelocity>1125</maxRotVelocity>
+      <motorConstant>6.0e-05</motorConstant><momentConstant>0.0226</momentConstant>
       <commandSubTopic>/gazebo/command/motor_speed</commandSubTopic><motorNumber>1</motorNumber>
       <rotorDragCoefficient>0.000175</rotorDragCoefficient><rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
       <motorSpeedPubTopic>/motor_speed/2</motorSpeedPubTopic><rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
     </plugin>
 
-    <!-- rotor_3 (后右 Motor4) 从数组位置2取值 -->
+    <!-- rotor_3 (后右 Motor4) 从数组位置2取值, 后电机ESC响应正常(12.5ms) -->
     <plugin name='back_right_motor_model' filename='libgazebo_motor_model.so'>
       <robotNamespace/><jointName>rotor_3_joint</jointName><linkName>rotor_3</linkName><turningDirection>cw</turningDirection>
       <timeConstantUp>0.0125</timeConstantUp><timeConstantDown>0.025</timeConstantDown><maxRotVelocity>1125</maxRotVelocity>
-      <motorConstant>4.05e-05</motorConstant><momentConstant>0.0226</momentConstant>
+      <motorConstant>6.0e-05</motorConstant><momentConstant>0.0226</momentConstant>
       <commandSubTopic>/gazebo/command/motor_speed</commandSubTopic><motorNumber>2</motorNumber>
       <rotorDragCoefficient>0.000175</rotorDragCoefficient><rollingMomentCoefficient>1e-06</rollingMomentCoefficient>
       <motorSpeedPubTopic>/motor_speed/3</motorSpeedPubTopic><rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+    </plugin>
+
+    <!-- 机体气动阻力插件：为机体施加线性/角速度阻力，模拟真实空气阻力 -->
+    <plugin name='multirotor_base' filename='libgazebo_multirotor_base_plugin.so'>
+      <robotNamespace/>
+      <linkName>base_link</linkName>
+      <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
+      <!-- 机体线性阻力系数 (N/(m/s))，根据实飞减速曲线调整 -->
+      <linearDragCoefficient>0.45</linearDragCoefficient>
+      <!-- 机体角阻力系数 (N·m/(rad/s)) -->
+      <angularDragCoefficient>0.02</angularDragCoefficient>
     </plugin>
 
     <!-- GPS -->
@@ -164,7 +203,14 @@
       <biasCorrelationTime>600</biasCorrelationTime><magTopic>/mag</magTopic>
     </plugin>
     <plugin name='barometer_plugin' filename='libgazebo_barometer_plugin.so'>
-      <robotNamespace/><pubRate>50</pubRate><baroTopic>/baro</baroTopic><baroDriftPaPerSec>0</baroDriftPaPerSec>
+      <robotNamespace/><pubRate>50</pubRate><baroTopic>/baro</baroTopic>
+      <!-- 气压计漂移 (Pa/s)：模拟温度变化引起的缓慢漂移
+           真机上 MS5611 典型漂移约 0.02~0.1 Pa/s
+           起飞阶段螺旋桨下洗气流会造成额外的气压扰动 -->
+      <baroDriftPaPerSec>0.05</baroDriftPaPerSec>
+      <!-- 气压计噪声密度 (Pa/sqrt(Hz))
+           MS5611 典型值约 0.5~1.5 Pa, 螺旋桨气流环境下更大 -->
+      <baroNoiseDensity>1.2</baroNoiseDensity>
     </plugin>
 
     <!-- MAVLink 接口 -->
@@ -275,6 +321,20 @@
       <robotNamespace/>
       <linkName>/imu_link</linkName>
       <imuTopic>/imu</imuTopic>
+
+      <!-- ====== 加速度计噪声 (基于 ICM-42688 典型参数) ====== -->
+      <!-- 噪声密度 (m/s^2/sqrt(Hz))：白噪声功率谱密度
+           典型 MEMS: 0.004~0.01, 振动环境下有效值更大
+           此处取偏高值模拟机架振动耦合效应 -->
+      <gyroscopeNoiseDensity>0.0003394</gyroscopeNoiseDensity>
+      <gyroscopeRandomWalk>0.00003879</gyroscopeRandomWalk>
+      <gyroscopeBiasCorrelationTime>1000</gyroscopeBiasCorrelationTime>
+      <gyroscopeTurnOnBiasSigma>0.015</gyroscopeTurnOnBiasSigma>
+
+      <accelerometerNoiseDensity>0.008</accelerometerNoiseDensity>
+      <accelerometerRandomWalk>0.00086</accelerometerRandomWalk>
+      <accelerometerBiasCorrelationTime>300</accelerometerBiasCorrelationTime>
+      <accelerometerTurnOnBiasSigma>0.196</accelerometerTurnOnBiasSigma>
     </plugin>
 
   </model>

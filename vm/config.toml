@@ -47,21 +47,6 @@ guest_port = 4565
 description = "PX4 SITL #5"
 
 [[network.tcp_mappings]]
-host_port = 4566
-guest_port = 4566
+host_port = 23456
+guest_port = 23456
 description = "PX4 SITL #6"
-
-[[network.tcp_mappings]]
-host_port = 4567
-guest_port = 4567
-description = "PX4 SITL #7"
-
-[[network.tcp_mappings]]
-host_port = 4568
-guest_port = 4568
-description = "PX4 SITL #8"
-
-[[network.tcp_mappings]]
-host_port = 4569
-guest_port = 4569
-description = "PX4 SITL #9"
